@@ -1,0 +1,6 @@
+﻿CREATE TABLE [dbo].[Projects]
+(
+	[Id] INT NOT NULL PRIMARY KEY, 
+    [ProjectName] NVARCHAR(250) NOT NULL, 
+    [SVNPath] NVARCHAR(500) NOT NULL
+)

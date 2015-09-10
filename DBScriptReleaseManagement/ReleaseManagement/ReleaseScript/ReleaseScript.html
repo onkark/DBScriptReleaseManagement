@@ -1,0 +1,65 @@
+﻿<div>
+    <div ng-controller="ReleaseScriptsController">
+        Selected Release Id: {{selectedReleaseId}}
+        <button ng-click="openReleaseScript()" class="btn btn-primary pull-right" ng-disabled="selectedProjectId === -1"><i class="icon-white icon-plus"></i> Add Release Script</button>
+
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>ReleaseScriptId</th>
+                    <!--<th>ReleaseId</th>-->
+                    <th>SequenceNo</th>
+                    <th>SVNScriptPath</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-show="projectReleaseScript.length!=0" ng-repeat="releaseScript in projectReleaseScripts" ng-click="selectReleaseProject(releaseScript.ReleaseId)" ng-class="{projectSelected: releaseScript.selectedReleaseId === selectedReleaseId}" style="cursor:pointer">
+                    <td>{{releaseScript.ReleaseScriptId}}</td>
+                    <!--<td>{{releaseScript.ReleaseId}}</td>-->
+                    <td>{{releaseScript.SequenceNo}}</td>
+                    <td>{{releaseScript.SVNScriptPath}}</td>
+                    <td>
+                        <a href="" class="btn btn-primary btn-xs" ng-click="openReleaseScript(releaseScript.ReleaseScriptId)">Edit</a>
+                        <a href="" class="btn btn-primary btn-xs" ng-click="deleteReleaseScript(releaseScript.ReleaseScriptId)">Delete</a>
+                    </td>
+                </tr>
+                <tr ng-show="projectReleaseScripts.length == 0">
+                    <td colspan="5">
+                        No Project Schedule added
+                    </td>
+                </tr>
+                
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<script type="text/ng-template" id="add_releaseScript_modal">
+    <div class="modal-header">
+        <h3>Release Schedule Form</h3>
+        <div class="modal-body">
+            <form name="releaseScriptForm" class="form-horizontal">
+                <div class="form-group">
+                    <label for="sequenceNo" class="col-sm-3 control-label">Sequence No</label>
+                    <div class="col-sm-7">
+                        <input type="text" class="form-control" id="sequenceNo" placeholder="Sequence No" ng-model="releaseScript.SequenceNo">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="svnScriptPath" class="col-sm-3 control-label">SVN Script Path</label>
+                    <div class="col-sm-7">
+                        <input type="text" class="form-control" id="svnScriptPath" placeholder="SVN Script Path" width="500px" ng-model="releaseScript.SVNScriptPath">
+                    </div>
+                </div>
+
+                
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button ng-click="saveReleaseScript()" class="btn btn-primary">Save</button>
+            <button ng-click="cancelReleaseScript()" class="btn">Cancel</button>
+        </div>
+    </div>
+</script>

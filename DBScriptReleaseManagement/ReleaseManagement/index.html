@@ -1,0 +1,85 @@
+﻿<!DOCTYPE html>
+<html ng-app="app">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width" />
+	<title>Home Page</title>
+
+	<link href="../Content/bootstrap.css" rel="stylesheet" />
+	<link href="../Content/Site.css" rel="stylesheet" />
+
+	<script src="../Scripts/jquery-2.1.3.min.js"></script>
+	<script src="../Scripts/angular.min.js"></script>
+	<script src="../Scripts/angular-route.js"></script>
+	<script src="../Scripts/angular-resource.min.js"></script>
+	<script src="../Scripts/angular-ui/ui-bootstrap-tpls.min.js"></script>
+	<!--<script src="../Scripts/angular-ui/ui-bootstrap.min.js"></script>-->
+	<script src="../Scripts/bootstrap.js"></script>
+
+
+	<script src="Scripts/app.js"></script>
+	<script src="Scripts/app.config.js"></script>
+	<script src="Scripts/app.routes.js"></script>
+	<script src="Scripts/app.services.js"></script>	
+	<script src="Scripts/app.core.js"></script>
+
+	<script src="Scripts/app.sharedService.js"></script>
+
+	<script src="Project/project.ctrl.js"></script>
+	<script src="Project/project.fact..js"></script>
+
+	<script src="ProjectRelease/projectRelease.fact.js"></script>
+	<script src="ProjectRelease/projectRelease.ctrl.js"></script>
+
+	<script src="ReleaseScript/releaseScript.ctrl.js"></script>
+	<script src="ReleaseScript/releaseScript.fact.js"></script>
+
+</head>
+<body>
+
+	<div class="wrapper">
+		<div class="box">
+			<div class="row row-offcanvas row-offcanvas-left">
+
+				<!-- sidebar -->
+				<div class="column col-sm-2 col-xs-1 sidebar-offcanvas" id="sidebar">
+					<div ng-include="'Template/sidebar.html'">
+					</div>
+				</div>
+				<!-- /sidebar -->
+				<!-- main right col -->
+				<div class="column col-sm-10 col-xs-11" id="main">
+					<!-- top nav -->
+					<div class="navbar navbar-blue navbar-static-top" ng-include="'Template/topnav.html'">
+					</div>
+					<!-- /top nav -->
+
+					<div class="padding">
+						<div class="full col-sm-9">
+							<!-- START: content -->
+							<!--row-->
+							<div class="mainBody">
+								<ng-view></ng-view>
+							</div>
+							<!-- END: content -->
+							<!--/row-->
+							<!-- footer -->
+							<div ng-include="'Template/footer.html'">
+
+							</div>
+							<!-- /footer -->
+						</div><!-- /col-9 -->
+					</div><!-- /padding -->
+				</div>
+				<!-- /main -->
+			</div>
+		</div>
+	</div>
+
+
+
+
+
+</body>
+
+</html>

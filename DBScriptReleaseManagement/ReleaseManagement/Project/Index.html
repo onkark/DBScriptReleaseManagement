@@ -1,0 +1,63 @@
+﻿
+
+<!--<h3>Project</h3>-->
+
+<div>
+	<button ng-click="open()" class="btn btn-primary pull-right"><i class="icon-white icon-plus"></i> Add new project</button>
+	<table class="table table-hover">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Project</th>
+				<th>SVNPath</th>
+				<th>Action</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="project in projects" ng-click="selectProject(project.ProjectId)" ng-class="{projectSelected: project.ProjectId === selectedProjectId}" style="cursor:pointer">
+				<td>{{project.ProjectId}}</td>
+				<td>{{project.ProjectName}}</td>
+				<td>{{project.SVNPath}}</td>
+				<td>
+					<a href="" class="btn btn-primary btn-xs" ng-click="open(project.ProjectId)">Edit</a>
+					<a href="" class="btn btn-primary btn-xs" ng-click="delete(project.ProjectId)">Delete</a>
+				</td>
+			</tr>
+
+		</tbody>
+	</table>
+</div>
+
+<div>
+	
+	<div ng-include="'ProjectRelease/ProjectRelease.html'">
+
+	</div>
+</div>
+
+<script type="text/ng-template" id="add_project_modal">
+	<div class="modal-header">
+		<h3>Project Form</h3>
+		<div class="modal-body">
+			<form name="projectForm" class="form-horizontal">
+				<div class="form-group">
+					<label for="projectName" class="col-sm-3 control-label">Project Name</label>
+					<div class="col-sm-7">
+						<input type="text" class="form-control" id="projectName" placeholder="Project Name" ng-model="project.ProjectName">
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label for="svnPath" class="col-sm-3 control-label">SVN Path</label>
+					<div class="col-sm-7">
+						<input type="text" class="form-control" id="svnPath" placeholder="SVN Path" ng-model="project.SVNPath">
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="modal-footer">
+			<button ng-click="save()" class="btn btn-primary">Save</button>
+			<button ng-click="cancel()" class="btn">Cancel</button>
+		</div>
+	</div>
+</script>

@@ -1,0 +1,248 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ReleaseManagementModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ItemLists">
+          <Key>
+            <PropertyRef Name="ItemId" />
+          </Key>
+          <Property Name="ItemId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ItemValue" Type="varchar" MaxLength="10" />
+          <Property Name="ItemName" Type="varchar" MaxLength="500" />
+          <Property Name="GroupName" Type="varchar" MaxLength="100" />
+          <Property Name="Active" Type="bit" />
+        </EntityType>
+        <EntityType Name="ProjectReleaseSchedules">
+          <Key>
+            <PropertyRef Name="ReleaseId" />
+          </Key>
+          <Property Name="ReleaseId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProjectId" Type="int" Nullable="false" />
+          <Property Name="ReleaseDate" Type="datetime" />
+          <Property Name="Comment" Type="nvarchar(max)" />
+          <Property Name="ReleaseStatusId" Type="varchar" MaxLength="10" />
+          <Property Name="ModifiedBy" Type="nvarchar" MaxLength="50" />
+          <Property Name="ModifiedOn" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Projects">
+          <Key>
+            <PropertyRef Name="ProjectId" />
+          </Key>
+          <Property Name="ProjectId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProjectName" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="SVNPath" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="ModifiedBy" Type="nvarchar" MaxLength="50" />
+          <Property Name="ModifiedOn" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ReleaseScripts">
+          <Key>
+            <PropertyRef Name="ReleaseScriptId" />
+          </Key>
+          <Property Name="ReleaseScriptId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ReleaseId" Type="int" />
+          <Property Name="SequenceNo" Type="int" />
+          <Property Name="SVNScriptPath" Type="varchar" MaxLength="1000" />
+        </EntityType>
+        <Association Name="FK_ProjectReleaseSchedules_Project">
+          <End Role="Projects" Type="Self.Projects" Multiplicity="1" />
+          <End Role="ProjectReleaseSchedules" Type="Self.ProjectReleaseSchedules" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Projects">
+              <PropertyRef Name="ProjectId" />
+            </Principal>
+            <Dependent Role="ProjectReleaseSchedules">
+              <PropertyRef Name="ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ReleaseScripts_ProjectReleaseSchedules">
+          <End Role="ProjectReleaseSchedules" Type="Self.ProjectReleaseSchedules" Multiplicity="0..1" />
+          <End Role="ReleaseScripts" Type="Self.ReleaseScripts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProjectReleaseSchedules">
+              <PropertyRef Name="ReleaseId" />
+            </Principal>
+            <Dependent Role="ReleaseScripts">
+              <PropertyRef Name="ReleaseId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ReleaseManagementModelStoreContainer">
+          <EntitySet Name="ItemLists" EntityType="Self.ItemLists" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProjectReleaseSchedules" EntityType="Self.ProjectReleaseSchedules" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Projects" EntityType="Self.Projects" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ReleaseScripts" EntityType="Self.ReleaseScripts" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_ProjectReleaseSchedules_Project" Association="Self.FK_ProjectReleaseSchedules_Project">
+            <End Role="Projects" EntitySet="Projects" />
+            <End Role="ProjectReleaseSchedules" EntitySet="ProjectReleaseSchedules" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ReleaseScripts_ProjectReleaseSchedules" Association="Self.FK_ReleaseScripts_ProjectReleaseSchedules">
+            <End Role="ProjectReleaseSchedules" EntitySet="ProjectReleaseSchedules" />
+            <End Role="ReleaseScripts" EntitySet="ReleaseScripts" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ReleaseManagementModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ItemLists" EntityType="ReleaseManagementModel.ItemList" />
+          <EntitySet Name="Projects" EntityType="ReleaseManagementModel.Project" />
+          <EntitySet Name="ReleaseScripts" EntityType="ReleaseManagementModel.ReleaseScript" />
+          <EntitySet Name="ProjectReleaseSchedules" EntityType="ReleaseManagementModel.ProjectReleaseSchedule" />
+          <AssociationSet Name="FK_ProjectReleaseSchedules_Project" Association="ReleaseManagementModel.FK_ProjectReleaseSchedules_Project">
+            <End Role="Project" EntitySet="Projects" />
+            <End Role="ProjectReleaseSchedule" EntitySet="ProjectReleaseSchedules" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ReleaseScripts_ProjectReleaseSchedules" Association="ReleaseManagementModel.FK_ReleaseScripts_ProjectReleaseSchedules">
+            <End Role="ProjectReleaseSchedule" EntitySet="ProjectReleaseSchedules" />
+            <End Role="ReleaseScript" EntitySet="ReleaseScripts" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="ItemList">
+          <Key>
+            <PropertyRef Name="ItemId" />
+          </Key>
+          <Property Name="ItemId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ItemValue" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="ItemName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="GroupName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Active" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="Project">
+          <Key>
+            <PropertyRef Name="ProjectId" />
+          </Key>
+          <Property Name="ProjectId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProjectName" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="SVNPath" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="ProjectReleaseSchedules" Relationship="ReleaseManagementModel.FK_ProjectReleaseSchedules_Project" FromRole="Project" ToRole="ProjectReleaseSchedule" />
+        </EntityType>
+        <EntityType Name="ReleaseScript">
+          <Key>
+            <PropertyRef Name="ReleaseScriptId" />
+          </Key>
+          <Property Name="ReleaseScriptId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ReleaseId" Type="Int32" />
+          <Property Name="SequenceNo" Type="Int32" />
+          <Property Name="SVNScriptPath" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ProjectReleaseSchedule" Relationship="ReleaseManagementModel.FK_ReleaseScripts_ProjectReleaseSchedules" FromRole="ReleaseScript" ToRole="ProjectReleaseSchedule" />
+        </EntityType>
+        <EntityType Name="ProjectReleaseSchedule">
+          <Key>
+            <PropertyRef Name="ReleaseId" />
+          </Key>
+          <Property Name="ReleaseId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProjectId" Type="Int32" Nullable="false" />
+          <Property Name="ReleaseDate" Type="DateTime" Precision="3" />
+          <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Project" Relationship="ReleaseManagementModel.FK_ProjectReleaseSchedules_Project" FromRole="ProjectReleaseSchedule" ToRole="Project" />
+          <NavigationProperty Name="ReleaseScripts" Relationship="ReleaseManagementModel.FK_ReleaseScripts_ProjectReleaseSchedules" FromRole="ProjectReleaseSchedule" ToRole="ReleaseScript" />
+          <Property Name="ReleaseStatusId" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="FK_ProjectReleaseSchedules_Project">
+          <End Type="ReleaseManagementModel.Project" Role="Project" Multiplicity="1" />
+          <End Type="ReleaseManagementModel.ProjectReleaseSchedule" Role="ProjectReleaseSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="ProjectId" />
+            </Principal>
+            <Dependent Role="ProjectReleaseSchedule">
+              <PropertyRef Name="ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ReleaseScripts_ProjectReleaseSchedules">
+          <End Type="ReleaseManagementModel.ProjectReleaseSchedule" Role="ProjectReleaseSchedule" Multiplicity="0..1" />
+          <End Type="ReleaseManagementModel.ReleaseScript" Role="ReleaseScript" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProjectReleaseSchedule">
+              <PropertyRef Name="ReleaseId" />
+            </Principal>
+            <Dependent Role="ReleaseScript">
+              <PropertyRef Name="ReleaseId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ReleaseManagementModelStoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="ItemLists">
+            <EntityTypeMapping TypeName="ReleaseManagementModel.ItemList">
+              <MappingFragment StoreEntitySet="ItemLists">
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="GroupName" ColumnName="GroupName" />
+                <ScalarProperty Name="ItemName" ColumnName="ItemName" />
+                <ScalarProperty Name="ItemValue" ColumnName="ItemValue" />
+                <ScalarProperty Name="ItemId" ColumnName="ItemId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Projects">
+            <EntityTypeMapping TypeName="ReleaseManagementModel.Project">
+              <MappingFragment StoreEntitySet="Projects">
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="SVNPath" ColumnName="SVNPath" />
+                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+                <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ReleaseScripts">
+            <EntityTypeMapping TypeName="ReleaseManagementModel.ReleaseScript">
+              <MappingFragment StoreEntitySet="ReleaseScripts">
+                <ScalarProperty Name="SVNScriptPath" ColumnName="SVNScriptPath" />
+                <ScalarProperty Name="SequenceNo" ColumnName="SequenceNo" />
+                <ScalarProperty Name="ReleaseId" ColumnName="ReleaseId" />
+                <ScalarProperty Name="ReleaseScriptId" ColumnName="ReleaseScriptId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProjectReleaseSchedules">
+            <EntityTypeMapping TypeName="ReleaseManagementModel.ProjectReleaseSchedule">
+              <MappingFragment StoreEntitySet="ProjectReleaseSchedules">
+                <ScalarProperty Name="ReleaseStatusId" ColumnName="ReleaseStatusId" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="ReleaseDate" ColumnName="ReleaseDate" />
+                <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+                <ScalarProperty Name="ReleaseId" ColumnName="ReleaseId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

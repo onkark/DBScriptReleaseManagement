@@ -1,0 +1,86 @@
+﻿<div>
+	<div ng-controller="ProjectReleaseController">
+		Selected Project Id: {{selectedProjectId}}
+		<button ng-click="openReleaseSchedule()" class="btn btn-primary pull-right" ng-disabled="selectedProjectId === -1" ><i class="icon-white icon-plus"></i> Add Release Schedule</button>
+		<table class="table table-hover">
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>ReleaseDate</th>
+					<th>ReleaseStatus</th>
+					<th>Comment</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-show="projectReleaseSchedule.length!=0" ng-repeat="releaseSchedule in projectReleaseSchedule" ng-click="selectReleaseProject(releaseSchedule.ReleaseId)" ng-class="{releaseScheduleSelected: releaseSchedule.ReleaseId === selectedReleaseId}" style="cursor:pointer">
+					<td>{{releaseSchedule.ReleaseId}}</td>
+					<td>{{releaseSchedule.ReleaseDate | date:'medium'}}</td>
+					<td>{{releaseSchedule.ReleaseStatusItemName}}</td>
+					<td>{{releaseSchedule.Comment}}</td>
+					<td>
+						<a href="" class="btn btn-primary btn-xs" ng-click="openReleaseSchedule(releaseSchedule.ReleaseId)">Edit</a>
+						<a href="" class="btn btn-primary btn-xs" ng-click="deleteReleaseSchedule(releaseSchedule.ReleaseId)">Delete</a>
+					</td>
+				</tr>
+				<tr ng-show="projectReleaseSchedule.length == 0">
+					<td colspan="5">
+						No Project Schedule added
+					</td>
+				</tr>
+				<tr ng-show="!projectReleaseSchedule">
+					<td colspan="5">
+						Please Select project to see schedule.
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<div>
+
+	<div ng-include="'ReleaseScript/ReleaseScript.html'">
+
+	</div>
+</div>
+
+<script type="text/ng-template" id="add_releaseSchedule_modal">
+	<div class="modal-header">
+		<h3>Release Schedule Form</h3>
+		<div class="modal-body">
+			<form name="releaseScheduleForm" class="form-horizontal">
+				<div class="form-group">
+					<label for="releaseDate" class="col-sm-3 control-label">Release Date</label>
+					<div class="col-sm-7">
+						<datepicker ng-model="releaseSchedule.ReleaseDate" show-weeks="true" class="well well-sm" show-weeks="false" ></datepicker>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label for="releaseStatusItemName" class="col-sm-3 control-label">ReleaseStatus ItemName</label>
+					<div class="col-sm-7">
+						<input type="text" class="form-control" id="releaseStatusItemName" placeholder="Release Status" ng-model="releaseSchedule.ReleaseStatusItemName">
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label for="releaseStatus" class="col-sm-3 control-label">Release Status</label>
+					<div class="col-sm-7">
+						<input type="text" class="form-control" id="releaseStatus" placeholder="Release Status" ng-model="releaseSchedule.ReleaseStatusId">
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label for="comment" class="col-sm-3 control-label">Comment</label>
+					<div class="col-sm-7">
+						<input type="text" class="form-control" id="comment" placeholder="Comment" ng-model="releaseSchedule.Comment">
+					</div>
+				</div>				
+			</form>
+		</div>
+		<div class="modal-footer">
+			<button ng-click="saveReleaseSchedule()" class="btn btn-primary">Save</button>
+			<button ng-click="cancelReleaseSchedule()" class="btn">Cancel</button>
+		</div>
+	</div>
+</script>
